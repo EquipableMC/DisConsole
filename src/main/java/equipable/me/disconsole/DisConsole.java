@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.apache.logging.log4j.LogManager;
@@ -37,6 +38,10 @@ public class DisConsole extends JavaPlugin {
         }
         Objects.requireNonNull(this.getCommand("disconsole")).setExecutor(new ReloadCommand(this));
         Utilities.log(ChatColor.GREEN + "DisConsole plugin has been enabled!");
+
+        int pluginID = 24238;
+        Metrics metrics = new Metrics(this, pluginID);
+
     }
     
     public static DisConsole getInstance() {

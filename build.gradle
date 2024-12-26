@@ -32,12 +32,17 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
     compileOnly("org.apache.logging.log4j:log4j-core:2.24.3")
     implementation("net.dv8tion:JDA:5.2.1")
+    implementation("org.bstats:bstats-bukkit:3.0.2")
 }
 
 shadowJar {
     relocate('net.dv8tion.jda', 'shadowed.net.dv8tion.jda')
     dependencies {
         include(dependency('net.dv8tion:JDA:5.2.1'))
+    }
+    relocate("org.bstats", "me.equipable.DisConsole.metrics")
+    dependencies {
+        include(dependency('org.bstats:bstats-bukkit:3.0.2'))
     }
     archiveFileName.set("DisConsole-${version}.jar")
 }
