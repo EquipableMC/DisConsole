@@ -2,7 +2,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id 'java'
-    id("io.github.goooler.shadow") version "8.1.8"
+    id 'com.gradleup.shadow' version '8.3.3'
 }
 
 compileJava {
@@ -37,15 +37,10 @@ dependencies {
 
 shadowJar {
     relocate('net.dv8tion.jda', 'shadowed.net.dv8tion.jda')
-    dependencies {
-        include(dependency('net.dv8tion:JDA:5.2.1'))
-    }
-    relocate("org.bstats", "me.equipable.DisConsole.metrics")
-    dependencies {
-        include(dependency('org.bstats:bstats-bukkit:3.0.2'))
-    }
+    relocate("org.bstats", "shadowed.DisConsole.metrics")
     archiveFileName.set("DisConsole-${version}.jar")
 }
+
 
 def latestJava = 21
 def oldestJava = 17

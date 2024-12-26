@@ -36,12 +36,10 @@ public class DisConsole extends JavaPlugin {
         if (!this.isEnabled()) {
             return;
         }
-        Objects.requireNonNull(this.getCommand("disconsole")).setExecutor(new ReloadCommand(this));
         Utilities.log(ChatColor.GREEN + "DisConsole plugin has been enabled!");
 
         int pluginID = 24238;
         Metrics metrics = new Metrics(this, pluginID);
-
     }
     
     public static DisConsole getInstance() {
@@ -56,9 +54,14 @@ public class DisConsole extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+        String discordChannelId = getConfig().getString("Log-Channel");
+        if (discordChannelId == null || discordChannelId.isEmpty()) {
+            getLogger().warning("Log-Channel is not set in the config.");
+            getLogger().warning("Please set the Log-Channel in the config.yml and restart the server for the changes to take effect.");
+            return;
+        }
 
         try {
-            // Initialize JDA
             jda = JDABuilder.createDefault(botToken)
                     .setStatus(OnlineStatus.ONLINE)
                     .enableIntents(
@@ -69,8 +72,6 @@ public class DisConsole extends JavaPlugin {
                     .setAutoReconnect(true)
                     .addEventListeners(new MessageReceived())
                     .build();
-
-            // Wait for JDA to be ready
             jda.awaitReady();
             Utilities.log(ChatColor.GREEN + "JDA has been initialized successfully.");
         } catch (InvalidTokenException e) {
@@ -92,11 +93,13 @@ public class DisConsole extends JavaPlugin {
         saveConfig();
         getConfig().addDefault("Bot-Token", "");
         getConfig().addDefault("Log-Channel", "");
+        getConfig().addDefault("Allow-Discord-Command-Execution", false);
         getConfig().options().setHeader(
 	        Collections.singletonList("""
                     Configurations for the Discord bot integration.\s
                     # Bot-Token: The token for your discord bot.\s
-                    # Log-Channel: The id of the discord channel the bot will send the log messages in.""")
+                    # Log-Channel: The id of the discord channel the bot will send the log messages in.
+                    # allow-discord-command-execution: A config option for enabling or disabling the execution of minecraft commands through discord. Disabled by default. Accepted values are true or false.""")
         );
         getConfig().options().copyDefaults(true);
         saveConfig();
@@ -118,24 +121,7 @@ public class DisConsole extends JavaPlugin {
         // Update the Log4j configuration
         context.updateLoggers();
     }
-    
-    public void disableLog4j() {
-        LoggerContext context = (LoggerContext) LogManager.getContext(false);
-        Configuration config = context.getConfiguration();
-        
-        LoggerConfig loggerConfig = config.getRootLogger();
-        
-        // Remove the custom appender from the root logger
-        loggerConfig.removeAppender("LogAppender");
-        
-        // Update the Log4j configuration
-        context.updateLoggers();
-    }
 
-    public void disableJDA() {
-        DisConsole.getJDA().shutdownNow();
-    }
-    
     public static void sendMessage(String msg) {
         String DISCORD_CHANNEL = DisConsole.getInstance().getConfig().getString("Log-Channel");
         if (jda != null) {
@@ -144,10 +130,6 @@ public class DisConsole extends JavaPlugin {
                 consoleLogChannel.sendMessage(msg).queue();
             }
         }
-    }
-
-    public static boolean JDAInitialized() {
-        return jda != null && jda.getStatus() == JDA.Status.CONNECTED;
     }
 
 }

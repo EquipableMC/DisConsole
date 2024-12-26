@@ -59,19 +59,16 @@ public class RateLimitHandler {
 
     public static void resetRateLimiter() {
         synchronized (RateLimitHandler.class) {
-            // Shut down the existing executor service
             shutdownExecutorService();
             executorService = Executors.newSingleThreadExecutor();
-
-            // Reset state variables
             currentMessage = new StringBuilder();
             isPending = false;
         }
     }
+
     public static void shutdownExecutorService() {
         if (executorService != null && !executorService.isShutdown()) {
             executorService.shutdownNow();
         }
     }
 }
-

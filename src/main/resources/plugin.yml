@@ -4,10 +4,3 @@ main: equipable.me.disconsole.DisConsole
 author: Equipable
 website: https://github.com/EquipableMC
 api-version: '1.18'
-commands:
-  disconsole:
-    description: Reloads the plugin
-
-permissions:
-  disconsole.reload:
-    description: Reloads the plugin for DisConsole
