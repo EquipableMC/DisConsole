@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Desktop.DisConsole.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Desktop.DisConsole.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DisConsole.main.iml" filepath="$PROJECT_DIR$/.idea/modules/DisConsole.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/equipable.me.DisConsole.main.iml" filepath="$PROJECT_DIR$/.idea/modules/equipable.me.DisConsole.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/loginterceptorv2.main.iml" filepath="$PROJECT_DIR$/.idea/modules/loginterceptorv2.main.iml" />
+    </modules>
+  </component>
+</project>
